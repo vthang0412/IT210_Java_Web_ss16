@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="nav">
+    <a href="/">Trang chu</a>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/products">San pham</a>
+    <a href="/admin/categories">Danh muc</a>
+</div>
+
+<main class="container">
+    <h2>Dashboard Admin</h2>
+
+    <p>Tong doanh thu:
+        <strong th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' VND'"></strong>
+    </p>
+
+    <h3>Top 5 san pham ban chay</h3>
+    <table>
+        <tr>
+            <th>Ten san pham</th>
+            <th>So luong da ban</th>
+        </tr>
+        <tr th:each="item : ${top5Products}">
+            <td th:text="${item['name']}"></td>
+            <td th:text="${item['totalSold']}"></td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

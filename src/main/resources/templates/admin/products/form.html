@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Form san pham</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="nav">
+    <a href="/">Trang chu</a>
+    <a href="/admin/dashboard">Dashboard</a>
+    <a href="/admin/products">San pham</a>
+    <a href="/admin/categories">Danh muc</a>
+</div>
+
+<main class="container">
+    <h2 th:text="${product.id != null} ? 'Cap nhat san pham' : 'Them san pham'"></h2>
+
+    <form class="form-box" method="post" action="/admin/products/save">
+        <input type="hidden" name="id" th:value="${product.id}">
+        <div class="form-row">
+            <label>Ten san pham</label>
+            <input type="text" name="name" th:value="${product.name}" required>
+        </div>
+        <div class="form-row">
+            <label>Mo ta</label>
+            <textarea name="description" th:text="${product.description}"></textarea>
+        </div>
+        <div class="form-row">
+            <label>Gia</label>
+            <input type="number" step="0.01" min="0" name="price" th:value="${product.price}" required>
+        </div>
+        <div class="form-row">
+            <label>Ton kho</label>
+            <input type="number" min="0" name="stockQuantity" th:value="${product.stockQuantity}" required>
+        </div>
+        <div class="form-row">
+            <label>Image URL</label>
+            <input type="text" name="imageUrl" th:value="${product.imageUrl}">
+        </div>
+        <div class="form-row">
+            <label>Danh muc</label>
+            <select name="categoryId" required>
+                <option value="">-- Chon danh muc --</option>
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.id}"
+                        th:text="${cat.name}"
+                        th:selected="${product.category != null && product.category.id == cat.id}"></option>
+            </select>
+        </div>
+        <button type="submit">Luu</button>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cua hang</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="nav">
+    <a href="/">Trang chu</a>
+    <a href="/cart">Gio hang</a>
+    <a href="/admin/dashboard">Admin</a>
+</div>
+
+<main class="container">
+    <h2>Danh sach san pham</h2>
+
+    <form class="search-form" method="get" action="/">
+        <input type="text" name="name" th:value="${name}" placeholder="Ten san pham">
+        <input type="number" step="0.01" name="minPrice" th:value="${minPrice}" placeholder="Gia tu">
+        <input type="number" step="0.01" name="maxPrice" th:value="${maxPrice}" placeholder="Gia den">
+        <select name="categoryId">
+            <option value="">Tat ca danh muc</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}"
+                    th:selected="${cat.id == categoryId}"></option>
+        </select>
+        <button type="submit">Tim kiem</button>
+    </form>
+
+    <p th:if="${success}" class="success" th:text="${success}"></p>
+
+    <div class="product-grid" th:if="${!#lists.isEmpty(products)}">
+        <div class="product-card" th:each="p : ${products}">
+            <img th:if="${p.imageUrl != null && !p.imageUrl.isBlank()}" th:src="${p.imageUrl}" alt="">
+            <h3 th:text="${p.name}">Ten san pham</h3>
+            <p class="muted" th:text="${p.category.name}">Danh muc</p>
+            <p class="price" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">0 VND</p>
+            <p>Ton kho: <span th:text="${p.stockQuantity}">0</span></p>
+            <form method="post" action="/cart/add">
+                <input type="hidden" name="productId" th:value="${p.id}">
+                <input type="number" name="quantity" value="1" min="1">
+                <button type="submit" th:disabled="${p.stockQuantity <= 0}">Them vao gio</button>
+            </form>
+        </div>
+    </div>
+
+    <p th:if="${#lists.isEmpty(products)}">Khong co san pham phu hop.</p>
+
+    <div class="pager" th:if="${totalPages > 1}">
+        <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+           th:href="@{/(page=${i}, name=${name}, minPrice=${minPrice}, maxPrice=${maxPrice}, categoryId=${categoryId})}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'active'"></a>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gio hang</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="nav">
+    <a href="/">Trang chu</a>
+    <a href="/cart">Gio hang</a>
+</div>
+
+<main class="container">
+    <h2>Gio hang</h2>
+
+    <p th:if="${error}" class="error" th:text="${error}"></p>
+    <p th:if="${success}" class="success" th:text="${success}"></p>
+
+    <table th:if="${!#lists.isEmpty(cartItems)}">
+        <tr>
+            <th>San pham</th>
+            <th>Don gia</th>
+            <th>So luong</th>
+            <th>Thanh tien</th>
+            <th>Hanh dong</th>
+        </tr>
+        <tr th:each="item : ${cartItems}">
+            <td th:text="${item.productName}"></td>
+            <td th:text="${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td>
+                <form class="inline-form" method="post" action="/cart/remove">
+                    <input type="hidden" name="productId" th:value="${item.productId}">
+                    <button class="danger" type="submit">Xoa</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <p th:if="${#lists.isEmpty(cartItems)}">Gio hang trong.</p>
+    <p th:if="${!#lists.isEmpty(cartItems)}"><a class="btn" href="/checkout">Tien hanh thanh toan</a></p>
+</main>
+</body>
+</html>

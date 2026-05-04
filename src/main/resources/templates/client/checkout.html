@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toan</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="nav">
+    <a href="/">Trang chu</a>
+    <a href="/cart">Gio hang</a>
+</div>
+
+<main class="container">
+    <h2>Thong tin giao hang</h2>
+    <p>Tong tien: <strong th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' VND'"></strong></p>
+
+    <form class="form-box" method="post" action="/checkout">
+        <div class="form-row">
+            <label>Ho ten</label>
+            <input type="text" name="customerName" required>
+        </div>
+        <div class="form-row">
+            <label>Email</label>
+            <input type="email" name="customerEmail" required>
+        </div>
+        <div class="form-row">
+            <label>Dien thoai</label>
+            <input type="text" name="customerPhone">
+        </div>
+        <div class="form-row">
+            <label>Dia chi giao hang</label>
+            <textarea name="shippingAddress" required></textarea>
+        </div>
+        <button type="submit">Xac nhan dat hang</button>
+    </form>
+</main>
+</body>
+</html>
