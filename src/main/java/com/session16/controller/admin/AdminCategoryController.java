@@ -2,9 +2,11 @@ package com.session16.controller.admin;
 
 import com.session16.entity.Category;
 import com.session16.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,15 @@ public class AdminCategoryController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
+    public String save(@Valid @ModelAttribute Category category,
+                       BindingResult bindingResult,
+                       Model model,
+                       RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.findAll());
+            return "admin/categories/list";
+        }
+
         categoryService.save(category);
         redirectAttributes.addFlashAttribute("success", "Luu danh muc thanh cong!");
         return "redirect:/admin/categories";

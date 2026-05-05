@@ -19,11 +19,14 @@
     <p th:if="${error}" class="error" th:text="${error}"></p>
     <p th:if="${success}" class="success" th:text="${success}"></p>
 
-    <form class="search-form" method="post" action="/admin/categories/save">
-        <input type="hidden" name="id" th:value="${category.id}">
-        <input type="text" name="name" th:value="${category.name}" placeholder="Ten danh muc" required>
+    <form class="category-form" method="post" action="/admin/categories/save" th:object="${category}">
+        <input type="hidden" th:field="*{id}">
+        <div class="category-input">
+            <input type="text" th:field="*{name}" placeholder="Ten danh muc">
+            <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
         <button type="submit" th:text="${category.id != null} ? 'Cap nhat' : 'Them moi'"></button>
-        <a th:if="${category.id != null}" href="/admin/categories">Huy</a>
+        <a class="btn btn-secondary" th:if="${category.id != null}" href="/admin/categories">Huy</a>
     </form>
 
     <table>

@@ -15,22 +15,25 @@
     <h2>Thong tin giao hang</h2>
     <p>Tong tien: <strong th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + ' VND'"></strong></p>
 
-    <form class="form-box" method="post" action="/checkout">
+    <form class="form-box" method="post" action="/checkout" th:object="${checkoutForm}">
         <div class="form-row">
             <label>Ho ten</label>
-            <input type="text" name="customerName" required>
+            <input type="text" th:field="*{customerName}">
+            <div class="field-error" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"></div>
         </div>
         <div class="form-row">
             <label>Email</label>
-            <input type="email" name="customerEmail" required>
+            <input type="email" th:field="*{customerEmail}">
+            <div class="field-error" th:if="${#fields.hasErrors('customerEmail')}" th:errors="*{customerEmail}"></div>
         </div>
         <div class="form-row">
             <label>Dien thoai</label>
-            <input type="text" name="customerPhone">
+            <input type="text" th:field="*{customerPhone}">
         </div>
         <div class="form-row">
             <label>Dia chi giao hang</label>
-            <textarea name="shippingAddress" required></textarea>
+            <textarea th:field="*{shippingAddress}"></textarea>
+            <div class="field-error" th:if="${#fields.hasErrors('shippingAddress')}" th:errors="*{shippingAddress}"></div>
         </div>
         <button type="submit">Xac nhan dat hang</button>
     </form>

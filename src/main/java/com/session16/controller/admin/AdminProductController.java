@@ -3,9 +3,11 @@ package com.session16.controller.admin;
 import com.session16.entity.Product;
 import com.session16.service.CategoryService;
 import com.session16.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,9 +44,20 @@ public class AdminProductController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Product product,
-                       @RequestParam Long categoryId,
+    public String save(@Valid @ModelAttribute Product product,
+                       BindingResult bindingResult,
+                       @RequestParam(required = false) Long categoryId,
+                       Model model,
                        RedirectAttributes redirectAttributes) {
+        if (categoryId == null) {
+            model.addAttribute("categoryError", "Vui long chon danh muc");
+        }
+
+        if (bindingResult.hasErrors() || categoryId == null) {
+            model.addAttribute("categories", categoryService.findAll());
+            return "admin/products/form";
+        }
+
         product.setCategory(categoryService.findById(categoryId));
         productService.save(product);
         redirectAttributes.addFlashAttribute("success", "Luu san pham thanh cong!");

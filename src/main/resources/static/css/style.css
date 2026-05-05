@@ -54,6 +54,23 @@ a:hover {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
+.category-form {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.category-input {
+    min-width: 260px;
+    flex: 1;
+}
+
+.category-input input {
+    width: 100%;
+}
+
 .form-row {
     display: grid;
     gap: 6px;
@@ -150,6 +167,12 @@ button:disabled {
 .error {
     color: #dc2626;
     font-weight: 600;
+}
+
+.field-error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 4px;
 }
 
 .product-grid {

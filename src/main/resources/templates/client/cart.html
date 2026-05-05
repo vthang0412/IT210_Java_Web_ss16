@@ -33,7 +33,7 @@
             <td>
                 <form class="inline-form" method="post" action="/cart/remove">
                     <input type="hidden" name="productId" th:value="${item.productId}">
-                    <button class="danger" type="submit">Xoa</button>
+                    <button class="danger" type="submit" onclick="return confirm('Xoa san pham nay khoi gio hang?')">Xoa</button>
                 </form>
             </td>
         </tr>

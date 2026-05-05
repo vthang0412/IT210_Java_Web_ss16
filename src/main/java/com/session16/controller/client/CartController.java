@@ -32,6 +32,7 @@ public class CartController {
 
     @GetMapping
     public String viewCart(HttpSession session, Model model) {
+
         model.addAttribute("cartItems", getCart(session));
         return "client/cart";
     }
